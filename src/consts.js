@@ -1,4 +1,18 @@
-// category with subcategories
 export const PLAYEROPTIONS = {
     shots: ['situations', 'zones', 'accuracy', 'bodyparts'],
+    goals: ['situations', 'zones', 'bodyparts'],
+    dribbles: ['success'],
+    'possesion-loss': ['type'],
+    aerial: ['success'],
+    passes: ['length', 'type'],
+    'key-passes': ['type', 'length'],
+    assists: ['type'],
+    tackles: ['success'],
+    interceptions: ['success'],
+    fouls: ['type'],
+    cards: ['type'],
+    offsides: ['type'],
+    clearances: ['success'],
+    blocks: ['type'],
+    saves: ['shotzones'],
 };

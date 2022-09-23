@@ -1,10 +1,9 @@
-import { Actor } from "apify";
+import { Actor } from 'apify';
 
-/* eslint-disable max-len */
 export const mergeInformation = async (finalState) => {
+    console.log(`Formatting the data from state.json...`);
     for (const key of Object.keys(finalState)) {
         if (key.startsWith('1')) {
-            // player tournamentId teamId
             const player = finalState[key];
             const infoKey = `Player-${player[0].playerId}`;
             const uniquePlayerTournaments = Array.from(new Set(player.map((tournament) => `${tournament.tournamentName} - ${tournament.teamName}`)));
@@ -18,7 +17,72 @@ export const mergeInformation = async (finalState) => {
             for (const param of Object.keys(playerTournaments)) {
                 playerTournaments[param] = playerTournaments[param].reduce(((r, c) => Object.assign(r, c)), {});
             }
+            console.log(`Pushing data to the dataset`);
             await Actor.pushData({ [infoKey]: playerTournaments });
+        }
+        if (key.startsWith('2')) {
+            const uniquePlayerInfo = {};
+            for (const player of finalState[key]) {
+                const infoKey = `Player-${player.playerId}`;
+                const teamKey = `Team-${player.teamId}`;
+                if (!uniquePlayerInfo[teamKey]) {
+                    uniquePlayerInfo[teamKey] = {};
+                }
+                if (!uniquePlayerInfo?.[teamKey]?.[infoKey]) {
+                    uniquePlayerInfo[teamKey][infoKey] = player;
+                } else {
+                    uniquePlayerInfo[teamKey][infoKey] = { ...uniquePlayerInfo[teamKey][infoKey], ...player };
+                }
+            }
+            console.log(`Pushing data to the dataset`);
+            await Actor.pushData(uniquePlayerInfo);
         }
     }
 };
+
+export const categorizeUrls = (startUrls) => {
+    const labeledRequests = [];
+    console.log(`Categorizing the startUrls...
+Tip: The most efficient way to use this actor is to provide start urls of a competition or teams,
+I recommend only using player urls if you want to scrape a single player for his performance in different competitions.`);
+    for (let { url } of startUrls) {
+        if (url.endsWith('/')) url = url.slice(0, -1);
+        const code = url.split('/')[4];
+        if (url.startsWith('https://www.whoscored.com/') && url.includes('/Teams/') && url.includes('/Show/')) {
+            labeledRequests.push({
+                url,
+                label: 'type',
+                userData: {
+                    code,
+                    format: 2,
+                }
+            });
+        } else if (url.startsWith('https://www.whoscored.com/') && url.includes('/Players/') && url.includes('/Show/')) {
+            labeledRequests.push({
+                url,
+                label: 'type',
+                userData: {
+                    code,
+                    format: 1,
+                }
+            });
+        } else if (url.startsWith('https://www.whoscored.com/') && url.includes('/Tournaments/') && url.includes('/Regions/')) {
+            labeledRequests.push({
+                url,
+                label: 'type',
+                userData: {
+                    code: url.split('/')[10],
+                    format: 3,
+                }
+            });
+        } else {
+            throw new Error(`Invalid start url: ${url}
+            Url should be in the following format:
+            https://www.whoscored.com/Teams/13/Show/England-Arsenal
+            https://www.whoscored.com/Players/279379/Show/Gabriel-Jesus
+            https://www.whoscored.com/Regions/252/Tournaments/2/England-Premier-League`);
+        }
+    }
+    return labeledRequests;
+}
+

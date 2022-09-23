@@ -1,5 +1,5 @@
 {
-    "title": "PlaywrightCrawler Template",
+    "title": "Whoscored Player Inforomation Scraper Input Schema",
     "type": "object",
     "schemaVersion": 1,
     "properties": {
@@ -10,7 +10,7 @@
             "editor": "requestListSources",
             "prefill": [
                 {
-                    "url": "https://apify.com"
+                    "url": "https://www.whoscored.com/Regions/252/Tournaments/2/England-Premier-League"
                 }
             ]
         }

@@ -1,12 +1,12 @@
 {
-	"name": "pw-test2",
+	"name": "whoscored-player-information-scraper",
 	"version": "0.0.1",
 	"type": "module",
-	"description": "This is an example of an Apify actor.",
+	"description": "Get player information from whoscored.com",
 	"dependencies": {
-		"apify": "^3.0.0",
-		"crawlee": "^3.0.0",
-		"playwright": "*"
+		"apify": "^3.0.1",
+		"crawlee": "^3.0.4",
+		"playwright": "^1.18.1"
 	},
 	"devDependencies": {
 		"@apify/eslint-config": "^0.3.1",
