@@ -4,17 +4,17 @@ Input your source url, and get the player information. Simple as that.
 
 There are three types of input formats:
 
-##### 1.Player
+### 1.Player
 Example url: `https://www.whoscored.com/Players/11119/Show/Lionel-Messi`
 
 This will return the player information for all competitions. Only recommended if you want to get the player information for all competitions.
 
-##### 2.Team
+### 2.Team
 Example url: `https://www.whoscored.com/Teams/7/Show/Spain-Real-Madrid`
 
 This will return the player information for the team in the url. Only recommended if you want to get the player information for a specific team. Much more efficient than the first option if you don't want to get the player information for all competitions.
 
-##### 3.Competition
+### 3.Competition
 Example url: `https://www.whoscored.com/Regions/252/Tournaments/2/Spain-La-Liga`
 
 This will return the player information for all teams in the competition. This is the most efficient way if you want to get all player information for a specific competition.
