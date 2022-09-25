@@ -44,7 +44,8 @@ export const categorizeUrls = (startUrls) => {
     const labeledRequests = [];
     console.log(`Categorizing the startUrls...
 Tip: The most efficient way to use this actor is to provide start urls of a competition or teams,
-I recommend using player urls only if you want to scrape players for their performance in different competitions.`);
+I recommend using player urls only if you want to scrape players for their performance in different competitions.
+Use at least 8gb memory to run this actor.`);
     for (let { url } of startUrls) {
         if (url.endsWith('/')) url = url.slice(0, -1);
         const code = url.split('/')[4];
